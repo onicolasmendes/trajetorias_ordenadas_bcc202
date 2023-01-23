@@ -9,7 +9,7 @@ struct ponto
 struct rota
 {
     Ponto* pontos;
-    char[5] id;
+    char id[5];
     double distancia;
     double deslocamento;
-}
+};
