@@ -6,4 +6,10 @@ struct ponto
     int y;
 };
 
-
+struct rota
+{
+    Ponto* pontos;
+    char[5] id;
+    double distancia;
+    double deslocamento;
+}

@@ -8,6 +8,7 @@
 
 //Structs
 typedef struct ponto Ponto;
+typedef struct rota Rota;
 
 Ponto* alocaPonto(int);
 void desalocaPontos(Ponto **);
