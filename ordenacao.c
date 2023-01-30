@@ -13,3 +13,12 @@ struct rota
     double distancia;
     double deslocamento;
 };
+
+Ponto *alocaPonto(int ordem){
+    Ponto *vetponto = calloc(ordem,sizeof(Ponto));
+    return vetponto;
+}
+void desalocaPontos(Ponto **vetor){
+    free(*vetor);
+}
+
