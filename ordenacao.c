@@ -103,28 +103,13 @@ void ordena(Rota *rotas, int qtdRotas)
                 rotas[j] = rotas[i];
                 rotas[i] = aux;
             }
-        }
-    }
-
-    for (int i = 0; i < qtdRotas; i++)
-    {
-        for (int j = 0; j < qtdRotas; j++)
-        {
-            if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento < rotas[j].deslocamento))
+            else if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento < rotas[j].deslocamento))
             {
                 aux = rotas[j];
                 rotas[j] = rotas[i];
                 rotas[i] = aux;
                
-            }
-        }
-    }
-
-    for (int i = 0; i < qtdRotas; i++)
-    {
-        for (int j = 0; j < qtdRotas; j++)
-        {
-            if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento == rotas[j].deslocamento) && strcmp(rotas[i].id, rotas[j].id) < 0)
+            } else if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento == rotas[j].deslocamento) && strcmp(rotas[i].id, rotas[j].id) < 0)
             {
                 aux = rotas[j];
                 rotas[j] = rotas[i];
@@ -132,7 +117,6 @@ void ordena(Rota *rotas, int qtdRotas)
             }
         }
     }
-
     
 }
 
