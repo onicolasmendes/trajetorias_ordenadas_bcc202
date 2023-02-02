@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 //Structs
 typedef struct ponto Ponto;
@@ -12,9 +13,12 @@ typedef struct rota Rota;
 
 Ponto* alocaPonto(int);
 void desalocaPontos(Ponto **);
-double calcularDistancia(Ponto *, int, int);
-double calcularDeslocamento(Ponto *, int);
-void ordena(Ponto **, int);
-void imprime(Ponto *, int);
+Rota* alocaRota(int, int);
+void desalocaRota(Rota*, int);
+void lerRotas(Rota*, int, int);
+void calcularDistancia(Rota *, int, int);
+void calcularDeslocamento(Rota *, int, int);
+void ordena(Rota *, int);
+void imprime(Rota *, int);
 
 #endif
