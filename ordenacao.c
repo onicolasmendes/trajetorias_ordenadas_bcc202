@@ -93,7 +93,7 @@ void ordena(Rota *rotas, int qtdRotas)
 
     Rota aux;
 
- for (int i = 0; i < qtdRotas; i++)
+    for (int i = 0; i < qtdRotas; i++)
     {
         for (int j = 0; j < qtdRotas; j++)
         {
@@ -108,8 +108,8 @@ void ordena(Rota *rotas, int qtdRotas)
                 aux = rotas[j];
                 rotas[j] = rotas[i];
                 rotas[i] = aux;
-               
-            } else if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento == rotas[j].deslocamento) && strcmp(rotas[i].id, rotas[j].id) < 0)
+            }
+            else if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento == rotas[j].deslocamento) && strcmp(rotas[i].id, rotas[j].id) < 0)
             {
                 aux = rotas[j];
                 rotas[j] = rotas[i];
@@ -117,9 +117,7 @@ void ordena(Rota *rotas, int qtdRotas)
             }
         }
     }
-    
 }
-
 
 void imprime(Rota *rotas, int qtdRotas)
 {
@@ -129,3 +127,39 @@ void imprime(Rota *rotas, int qtdRotas)
         printf("%s %.2lf %.2lf\n", rotas[i].id, rotas[i].distancia, rotas[i].deslocamento);
     }
 }
+
+void quickSort(Rota *rotas, int inicio, int final)
+{
+    int esquerda, direita, pivo;
+    Rota aux;
+    if (inicio < final)
+    {
+        pivo = inicio; // posicao do pivo sempre sera o inicio
+        esquerda = inicio;
+        direita = final;
+
+        while (esquerda < direita)
+        {
+            while (((rotas[esquerda].distancia >= rotas[pivo].distancia) || ( (rotas[esquerda].distancia == rotas[pivo].distancia) && (rotas[esquerda].deslocamento < rotas[pivo].deslocamento))) && (esquerda < final)) // elementos maiores que pivo devem ficar a esquerda
+            {
+                esquerda++;
+            }
+            while ((rotas[direita].distancia < rotas[pivo].distancia) || ((rotas[direita].distancia == rotas[pivo].distancia) && (rotas[direita].deslocamento >= rotas[pivo].deslocamento))) // elementos menores que o pivo devem ficar a diretia
+            {
+                direita--;
+            }
+            if (esquerda < direita) // troca os elementos esquerda e direita
+            {
+                aux = rotas[esquerda];
+                rotas[esquerda] = rotas[direita];
+                rotas[direita] = aux;
+            }
+        }
+        aux = rotas[pivo];
+        rotas[pivo] = rotas[direita]; // elemento pivo troca para a posicao final
+        rotas[direita] = aux;
+        quickSort(rotas, inicio, direita - 1); // chama a funcao quicksort recursivamente passando o mesmo vetor, porém o inicio e o fim correspondem aos subvetores antes do pivo anterior e depois do pivo anterior
+        quickSort(rotas, direita + 1, final);
+    }
+}
+

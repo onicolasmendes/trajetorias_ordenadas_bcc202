@@ -14,7 +14,8 @@ int main(int argc, char const *argv[])
 
     calcularDeslocamento(rotas, qtdPontos, qtdRotas);
 
-    ordena(rotas, qtdRotas);
+    quickSort(rotas, 0, qtdRotas -1);
+
 
     imprime(rotas, qtdRotas);
 

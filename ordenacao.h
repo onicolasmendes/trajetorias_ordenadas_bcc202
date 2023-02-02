@@ -20,5 +20,7 @@ void calcularDistancia(Rota *, int, int);
 void calcularDeslocamento(Rota *, int, int);
 void ordena(Rota *, int);
 void imprime(Rota *, int);
+void quickSort(Rota *, int, int);
+
 
 #endif
