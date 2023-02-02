@@ -73,6 +73,7 @@ void calcularDistancia(Rota *rota, int qtdPontos, int qtdRotas)
         for (; i < qtdPontos - 1; i++)
         {
             soma += sqrt(pow(rota[j].pontos[i].x - rota[j].pontos[i + 1].x, 2) + pow(rota[j].pontos[i].y - rota[j].pontos[i + 1].y, 2));
+            soma = round(soma * 100) / 100;
         }
         rota[j].distancia = soma;
     }
@@ -109,7 +110,7 @@ void ordena(Rota *rotas, int qtdRotas)
     {
         for (int j = 0; j < qtdRotas; j++)
         {
-            if ((rotas[i].deslocamento < rotas[j].deslocamento) && (rotas[i].distancia == rotas[j].distancia) )
+            if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento < rotas[j].deslocamento))
             {
                 aux = rotas[j];
                 rotas[j] = rotas[i];
@@ -119,11 +120,11 @@ void ordena(Rota *rotas, int qtdRotas)
         }
     }
 
-   /* for (int i = 0; i < qtdRotas; i++)
+    for (int i = 0; i < qtdRotas; i++)
     {
         for (int j = 0; j < qtdRotas; j++)
         {
-            if (rotas[i].distancia == rotas[j].distancia  && strcmp(rotas[i].id, rotas[j].id) > 0 )
+            if ((rotas[i].distancia == rotas[j].distancia) && (rotas[i].deslocamento == rotas[j].deslocamento) && strcmp(rotas[i].id, rotas[j].id) < 0)
             {
                 aux = rotas[j];
                 rotas[j] = rotas[i];
@@ -131,7 +132,7 @@ void ordena(Rota *rotas, int qtdRotas)
             }
         }
     }
-*/
+
     
 }
 
