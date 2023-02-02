@@ -21,6 +21,6 @@ void calcularDeslocamento(Rota *, int, int);
 void ordena(Rota *, int);
 void imprime(Rota *, int);
 void quickSort(Rota *, int, int);
-
+int verificaIgualdade(double, double);
 
 #endif

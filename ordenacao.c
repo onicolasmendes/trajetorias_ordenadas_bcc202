@@ -72,8 +72,8 @@ void calcularDistancia(Rota *rota, int qtdPontos, int qtdRotas)
         int i = 0;
         for (; i < qtdPontos - 1; i++)
         {
-            soma += sqrt(pow(rota[j].pontos[i].x - rota[j].pontos[i + 1].x, 2) + pow(rota[j].pontos[i].y - rota[j].pontos[i + 1].y, 2));
-            soma = round(soma * 100) / 100;
+            soma += sqrt(pow(rota[j].pontos[i].x - rota[j].pontos[i + 1].x, 2) + (pow(rota[j].pontos[i].y - rota[j].pontos[i + 1].y, 2)));
+            soma = round(soma*100)/100;
         }
         rota[j].distancia = soma;
     }
@@ -124,7 +124,7 @@ void imprime(Rota *rotas, int qtdRotas)
     int i = 0;
     for (; i < qtdRotas; i++)
     {
-        printf("%s %.2lf %.2lf\n", rotas[i].id, rotas[i].distancia, rotas[i].deslocamento);
+        printf("%s %.4lf %.2lf\n", rotas[i].id, rotas[i].distancia, rotas[i].deslocamento);
     }
 }
 
@@ -140,11 +140,11 @@ void quickSort(Rota *rotas, int inicio, int final)
 
         while (esquerda < direita)
         {
-            while (((rotas[esquerda].distancia >= rotas[pivo].distancia) || ( (rotas[esquerda].distancia == rotas[pivo].distancia) && (rotas[esquerda].deslocamento < rotas[pivo].deslocamento))) && (esquerda < final)) // elementos maiores que pivo devem ficar a esquerda
+            while ( (rotas[esquerda].distancia > rotas[pivo].distancia) || (((rotas[esquerda].distancia == rotas[esquerda].distancia)) && (rotas[esquerda].deslocamento < rotas[pivo].deslocamento)) || (((rotas[esquerda].distancia == rotas[pivo].distancia)) && ((rotas[esquerda].deslocamento == rotas[pivo].deslocamento)) && (strcmp(rotas[esquerda].id, rotas[pivo].id) < 0)))
             {
                 esquerda++;
             }
-            while ((rotas[direita].distancia < rotas[pivo].distancia) || ((rotas[direita].distancia == rotas[pivo].distancia) && (rotas[direita].deslocamento >= rotas[pivo].deslocamento))) // elementos menores que o pivo devem ficar a diretia
+            while  ((rotas[direita].distancia < rotas[pivo].distancia) ||   (((rotas[direita].distancia == rotas[pivo].distancia)) && (rotas[direita].deslocamento > rotas[pivo].deslocamento)) || ((((rotas[direita].distancia == rotas[pivo].distancia)) && ((rotas[direita].deslocamento==rotas[pivo].deslocamento)) && (strcmp(rotas[direita].id, rotas[pivo].id) > 0))))// elementos menores que o pivo devem ficar a diretia
             {
                 direita--;
             }
@@ -161,5 +161,16 @@ void quickSort(Rota *rotas, int inicio, int final)
         quickSort(rotas, inicio, direita - 1); // chama a funcao quicksort recursivamente passando o mesmo vetor, porém o inicio e o fim correspondem aos subvetores antes do pivo anterior e depois do pivo anterior
         quickSort(rotas, direita + 1, final);
     }
+
+   
 }
 
+int verificaIgualdade(double n1, double n2)
+{
+    return abs(n1-n2) < 0.008? 1: 0;
+}
+
+int arredonda(double n)
+{
+    return (n >= 0) ? (int)(n + 0.5) : (int)(n - 0.5);
+}
