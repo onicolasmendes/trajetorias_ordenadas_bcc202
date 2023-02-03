@@ -72,9 +72,10 @@ void calcularDistancia(Rota *rota, int qtdPontos, int qtdRotas)
         int i = 0;
         for (; i < qtdPontos - 1; i++)
         {
-            soma += sqrt(pow(rota[j].pontos[i].x - rota[j].pontos[i + 1].x, 2) + (pow(rota[j].pontos[i].y - rota[j].pontos[i + 1].y, 2)));
-            soma = round(soma*100)/100;
+            soma += (float) sqrt(pow(rota[j].pontos[i].x - rota[j].pontos[i + 1].x, 2) + (pow(rota[j].pontos[i].y - rota[j].pontos[i + 1].y, 2)));
+            
         }
+        soma = round(soma*100)/100;
         rota[j].distancia = soma;
     }
 };
