@@ -13,7 +13,7 @@ int main(int argc, char const *argv[])
 
     calcularDeslocamento(rotas, qtdPontos, qtdRotas);
 
-    ordena(rotas, 0, qtdRotas - 1);
+    ordena(rotas, qtdRotas);
 
     imprime(rotas, qtdRotas);
 

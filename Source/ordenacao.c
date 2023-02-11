@@ -97,38 +97,165 @@ void imprime(Rota *rotas, int qtdRotas)
     }
 }
 
-void ordena(Rota *rotas, int inicio, int final)
+void ordenaDistancia(Rota *rotas, int inicio, int final)
 {
     int esquerda, direita, pivo;
     Rota aux;
-    if (inicio < final)
-    {
-        pivo = inicio; // posicao do pivo sempre sera o inicio
-        esquerda = inicio;
-        direita = final;
+    pivo = inicio;
+    esquerda = inicio;
+    direita = final;
 
-        while (esquerda < direita)
+    while (esquerda <= direita)
+    {
+        while ((esquerda < final) && (rotas[esquerda].distancia > rotas[pivo].distancia))
         {
-            while ((rotas[esquerda].distancia > rotas[pivo].distancia) || (((rotas[esquerda].distancia == rotas[esquerda].distancia)) && (rotas[esquerda].deslocamento < rotas[pivo].deslocamento)) || (((rotas[esquerda].distancia == rotas[pivo].distancia)) && ((rotas[esquerda].deslocamento == rotas[pivo].deslocamento)) && (strcmp(rotas[esquerda].id, rotas[pivo].id) < 0)))
-            {
-                esquerda++;
-            }
-            while ((rotas[direita].distancia < rotas[pivo].distancia) || (((rotas[direita].distancia == rotas[pivo].distancia)) && (rotas[direita].deslocamento > rotas[pivo].deslocamento)) || ((((rotas[direita].distancia == rotas[pivo].distancia)) && ((rotas[direita].deslocamento == rotas[pivo].deslocamento)) && (strcmp(rotas[direita].id, rotas[pivo].id) > 0)))) // elementos menores que o pivo devem ficar a diretia
-            {
-                direita--;
-            }
-            if (esquerda < direita) // troca os elementos esquerda e direita
-            {
-                aux = rotas[esquerda];
-                rotas[esquerda] = rotas[direita];
-                rotas[direita] = aux;
-            }
+            esquerda++;
         }
-        aux = rotas[pivo];
-        rotas[pivo] = rotas[direita]; // elemento pivo troca para a posicao final
-        rotas[direita] = aux;
-        ordena(rotas, inicio, direita - 1); // chama a funcao quicksort recursivamente passando o mesmo vetor, porém o inicio e o fim correspondem aos subvetores antes do pivo anterior e depois do pivo anterior
-        ordena(rotas, direita + 1, final);
+
+        while ((direita > inicio) && (rotas[direita].distancia < rotas[pivo].distancia))
+        {
+            direita--;
+        }
+
+        if (esquerda <= direita)
+        {
+            // changePosition(rotas, esquerda, direita);
+            aux = rotas[esquerda];
+            rotas[esquerda] = rotas[direita];
+            rotas[direita] = aux;
+            esquerda++;
+            direita--;
+        }
+    }
+    if (direita > inicio)
+    {
+        ordenaDistancia(rotas, inicio, direita);
+    }
+
+    if (esquerda < final)
+    {
+        ordenaDistancia(rotas, esquerda, final);
     }
 }
 
+void ordenaDeslocamento(Rota *rotas, int inicio, int final)
+{
+    int esquerda, direita, pivo;
+    Rota aux;
+    pivo = inicio;
+    esquerda = inicio;
+    direita = final;
+
+    while (esquerda <= direita)
+    {
+        while ((esquerda < final) && (rotas[esquerda].deslocamento < rotas[pivo].deslocamento))
+        {
+            esquerda++;
+        }
+
+        while ((direita > inicio) && (rotas[direita].deslocamento > rotas[pivo].deslocamento))
+        {
+            direita--;
+        }
+
+        if (esquerda <= direita)
+        {
+            aux = rotas[esquerda];
+            rotas[esquerda] = rotas[direita];
+            rotas[direita] = aux;
+            esquerda++;
+            direita--;
+        }
+    }
+    if (direita > inicio)
+    {
+        ordenaDeslocamento(rotas, inicio, direita);
+    }
+    if (esquerda < final)
+    {
+        ordenaDeslocamento(rotas, esquerda, final);
+    }
+}
+
+void ordenaNome(Rota *rotas, int inicio, int final)
+{
+    int esquerda, direita, pivo;
+    Rota aux;
+    pivo = inicio;
+    esquerda = inicio;
+    direita = final;
+
+    while (esquerda <= direita)
+    {
+        while ((esquerda < final) && (strcmp(rotas[esquerda].id, rotas[pivo].id) < 0))
+        {
+            esquerda++;
+        }
+
+        while ((direita > inicio) && (strcmp(rotas[direita].id, rotas[pivo].id) > 0))
+        {
+            direita--;
+        }
+
+        if (esquerda <= direita)
+        {
+            // Troca posição
+            aux = rotas[esquerda];
+            rotas[esquerda] = rotas[direita];
+            rotas[direita] = aux;
+
+            esquerda++;
+            direita--;
+        }
+    }
+
+    // Chamadas recursivas
+    if (direita > inicio)
+    {
+        ordenaNome(rotas, inicio, direita);
+    }
+    if (esquerda < final)
+    {
+        ordenaNome(rotas, esquerda, final);
+    }
+}
+void ordena(Rota *rotas, int qtdRotas)
+{
+    int i;
+    // Primeiro critério: ordem decresente da distância
+    ordenaDistancia(rotas, 0, qtdRotas - 1);
+
+    // Segundo critério, caso as distâncias sejam iguais, deve-se analisar o deslocamento na ordem crescente
+    for (i = 0; i < qtdRotas - 1; i++)
+    {
+        if (rotas[i].distancia == rotas[i + 1].distancia)
+        {
+            int novoFinal = i;
+            while (rotas[i].distancia == rotas[novoFinal].distancia)
+            {
+                novoFinal++;
+            }
+            novoFinal--;
+            // Ordena em relação ao deslocamento na ordem crescente
+            ordenaDeslocamento(rotas, i, novoFinal);
+            i = novoFinal;
+        }
+    }
+
+    // Terceiro critério, caso as distâncias e o deslocamento sejam iguais, deve-se analisar o id em ordem alfabética crescente
+    for (i = 0; i < qtdRotas - 1; i++)
+    {
+        if ((rotas[i].distancia == rotas[i + 1].distancia) && (rotas[i].deslocamento == rotas[i + 1].deslocamento))
+        {
+            int novoFinal = i;
+            while ((novoFinal < qtdRotas) && (rotas[i].distancia == rotas[novoFinal].distancia) && (rotas[i].deslocamento == rotas[novoFinal].deslocamento))
+            {
+                novoFinal++;
+            }
+            novoFinal--;
+            // Ordena em relação ao nome (ID) na ordem crescente
+            ordenaNome(rotas, i, novoFinal);
+            i = novoFinal;
+        }
+    }
+}
