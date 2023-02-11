@@ -225,13 +225,14 @@ void ordena(Rota *rotas, int qtdRotas)
     // Primeiro critério: ordem decresente da distância
     ordenaDistancia(rotas, 0, qtdRotas - 1);
 
+   
     // Segundo critério, caso as distâncias sejam iguais, deve-se analisar o deslocamento na ordem crescente
     for (i = 0; i < qtdRotas - 1; i++)
     {
         if (rotas[i].distancia == rotas[i + 1].distancia)
         {
             int novoFinal = i;
-            while (rotas[i].distancia == rotas[novoFinal].distancia)
+            while ((novoFinal < qtdRotas)&&(rotas[i].distancia == rotas[novoFinal].distancia))
             {
                 novoFinal++;
             }
@@ -242,6 +243,7 @@ void ordena(Rota *rotas, int qtdRotas)
         }
     }
 
+    
     // Terceiro critério, caso as distâncias e o deslocamento sejam iguais, deve-se analisar o id em ordem alfabética crescente
     for (i = 0; i < qtdRotas - 1; i++)
     {
@@ -258,4 +260,5 @@ void ordena(Rota *rotas, int qtdRotas)
             i = novoFinal;
         }
     }
+    
 }
