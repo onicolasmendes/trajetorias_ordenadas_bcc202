@@ -119,7 +119,6 @@ void ordenaDistancia(Rota *rotas, int inicio, int final)
 
         if (esquerda <= direita)
         {
-            // changePosition(rotas, esquerda, direita);
             aux = rotas[esquerda];
             rotas[esquerda] = rotas[direita];
             rotas[direita] = aux;
